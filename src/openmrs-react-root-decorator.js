@@ -1,9 +1,17 @@
 import React from "react";
+import { ModuleNameContext } from "@openmrs/esm-module-config";
 
 export default function decorateOptions(opts) {
-  if (typeof opts !== "object" || typeof opts.featureName !== "string") {
+  if (
+    typeof opts !== "object" ||
+    typeof opts.featureName !== "string" ||
+    typeof opts.moduleName !== "string"
+  ) {
     throw new Error(
-      "openmrs-react-root-decorator should be called with an opts object that has a featureName string. e.g. @ErrorBoundary({featureName: 'life'})"
+      "openmrs-react-root-decorator should be called with an opts object that has " +
+        "1. a featureName string and 2. a moduleName string. " +
+        "The moduleName string will be used to look up configuration. " +
+        "e.g. openmrsRootDecorator({featureName: 'nice feature', moduleName: '@openmrs/esm-nice-feature' })"
     );
   }
 
@@ -23,14 +31,15 @@ export default function decorateOptions(opts) {
           // TO-DO have a UX designed for when a catastrophic error occurs
           return null;
         } else {
+          const rootComponent = (
+            <ModuleNameContext.Provider value={opts.moduleName}>
+              <Comp {...this.props} />
+            </ModuleNameContext.Provider>
+          );
           if (opts.strictMode || !React.StrictMode) {
-            return <Comp {...this.props} />;
+            return rootComponent;
           } else {
-            return (
-              <React.StrictMode>
-                <Comp {...this.props} />
-              </React.StrictMode>
-            );
+            return <React.StrictMode>{rootComponent}</React.StrictMode>;
           }
         }
       }
