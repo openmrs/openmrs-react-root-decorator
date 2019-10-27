@@ -12,12 +12,9 @@ describe("openmrs-react-root-decorator", () => {
 
   it("catches any errors in the component tree and renders a ui explaining something bad happened", () => {
     const DecoratedComp = openmrsRootDecorator(opts)(CompThatThrows);
-    try {
-      render(<DecoratedComp />);
-    } catch (err) {
-      // expected
-    }
-
+    const container = render(<DecoratedComp />);
+    console.log("rendered!");
+    expect(container.firstChild).toBeNull();
     // TODO assert that a real UX is showing for catastrophic errors
   });
 });
@@ -27,5 +24,7 @@ function CompThatWorks() {
 }
 
 function CompThatThrows() {
+  console.log("Throwing!");
+  console.trace();
   throw Error("ahahaa");
 }

@@ -35,6 +35,7 @@ export default function decorateOptions(opts) {
         }
       }
       componentDidCatch(err, info) {
+        console.log("Component did catch!");
         if (info && info.componentStack) {
           err.extra = Object.assign(err.extra || {}, {
             componentStack: info.componentStack
