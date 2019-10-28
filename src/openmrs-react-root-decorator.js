@@ -33,7 +33,9 @@ export default function decorateOptions(opts) {
         } else {
           const rootComponent = (
             <ModuleNameContext.Provider value={opts.moduleName}>
-              <Comp {...this.props} />
+              <React.Suspense fallback="root loading....">
+                <Comp {...this.props} />
+              </React.Suspense>
             </ModuleNameContext.Provider>
           );
           if (opts.strictMode || !React.StrictMode) {
