@@ -6,19 +6,16 @@ describe("openmrs-react-root-decorator", () => {
   const opts = { featureName: "Test", throwErrorsToConsole: false };
   it("renders a component", () => {
     const DecoratedComp = openmrsRootDecorator(opts)(CompThatWorks);
-    const { getByText } = render(<DecoratedComp />);
+    const { getByText } = render(
+      <DecoratedComp throwErrorsToConsole={false} />
+    );
     expect(getByText("The button")).toBeTruthy();
   });
 
   it("catches any errors in the component tree and renders a ui explaining something bad happened", () => {
     const DecoratedComp = openmrsRootDecorator(opts)(CompThatThrows);
-    try {
-      render(<DecoratedComp />);
-    } catch (err) {
-      // expected
-    }
-
-    // TODO assert that a real UX is showing for catastrophic errors
+    render(<DecoratedComp throwErrorsToConsole={false} />);
+    // TO-DO assert the UX for broken react app is showing
   });
 });
 
