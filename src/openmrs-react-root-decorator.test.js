@@ -1,20 +1,19 @@
 import React from "react";
 import openmrsRootDecorator from "./openmrs-react-root-decorator";
-import { render, getByText } from "@testing-library/react";
+import { render } from "@testing-library/react";
 
 describe("openmrs-react-root-decorator", () => {
   const opts = { featureName: "Test", throwErrorsToConsole: false };
+
   it("renders a component", () => {
     const DecoratedComp = openmrsRootDecorator(opts)(CompThatWorks);
-    const { getByText } = render(
-      <DecoratedComp throwErrorsToConsole={false} />
-    );
+    const { getByText } = render(<DecoratedComp />);
     expect(getByText("The button")).toBeTruthy();
   });
 
   it("catches any errors in the component tree and renders a ui explaining something bad happened", () => {
     const DecoratedComp = openmrsRootDecorator(opts)(CompThatThrows);
-    render(<DecoratedComp throwErrorsToConsole={false} />);
+    render(<DecoratedComp />);
     // TO-DO assert the UX for broken react app is showing
   });
 });
