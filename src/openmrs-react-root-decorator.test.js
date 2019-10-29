@@ -1,9 +1,10 @@
 import React from "react";
 import openmrsRootDecorator from "./openmrs-react-root-decorator";
-import { render, getByText } from "@testing-library/react";
+import { render } from "@testing-library/react";
 
 describe("openmrs-react-root-decorator", () => {
   const opts = { featureName: "Test", throwErrorsToConsole: false };
+
   it("renders a component", () => {
     const DecoratedComp = openmrsRootDecorator(opts)(CompThatWorks);
     const { getByText } = render(

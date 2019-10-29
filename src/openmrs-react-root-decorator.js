@@ -1,19 +1,25 @@
 import React from "react";
 
-export default function decorateOptions(opts) {
-  if (typeof opts !== "object" || typeof opts.featureName !== "string") {
+const defaultOpts = {
+  strictMode: true,
+  throwErrorsToConsole: true
+};
+
+export default function decorateOptions(userOpts) {
+  if (
+    typeof userOpts !== "object" ||
+    typeof userOpts.featureName !== "string"
+  ) {
     throw new Error(
       "openmrs-react-root-decorator should be called with an opts object that has a featureName string. e.g. @ErrorBoundary({featureName: 'life'})"
     );
   }
 
+  const opts = Object.assign({}, defaultOpts, userOpts);
+
   return function decorateComponent(Comp) {
     return class OpenmrsReactRoot extends React.Component {
       static displayName = `OpenmrsReactRoot(${opts.featureName})`;
-      static defaultProps = {
-        throwErrorsToConsole: true,
-        strictMode: true
-      };
       state = {
         caughtError: null,
         caughtErrorInfo: null
@@ -41,7 +47,7 @@ export default function decorateOptions(opts) {
           });
         }
 
-        if (this.props.throwErrorsToConsole) {
+        if (opts.throwErrorsToConsole) {
           setTimeout(() => {
             throw err;
           });
