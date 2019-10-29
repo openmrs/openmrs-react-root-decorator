@@ -7,15 +7,13 @@ describe("openmrs-react-root-decorator", () => {
 
   it("renders a component", () => {
     const DecoratedComp = openmrsRootDecorator(opts)(CompThatWorks);
-    const { getByText } = render(
-      <DecoratedComp throwErrorsToConsole={false} />
-    );
+    const { getByText } = render(<DecoratedComp />);
     expect(getByText("The button")).toBeTruthy();
   });
 
   it("catches any errors in the component tree and renders a ui explaining something bad happened", () => {
     const DecoratedComp = openmrsRootDecorator(opts)(CompThatThrows);
-    render(<DecoratedComp throwErrorsToConsole={false} />);
+    render(<DecoratedComp />);
     // TO-DO assert the UX for broken react app is showing
   });
 });
