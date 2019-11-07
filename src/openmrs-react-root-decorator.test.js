@@ -1,9 +1,14 @@
 import React from "react";
 import openmrsRootDecorator from "./openmrs-react-root-decorator";
 import { render } from "@testing-library/react";
+import { ModuleNameContext } from "@openmrs/esm-module-config";
 
 describe("openmrs-react-root-decorator", () => {
-  const opts = { featureName: "Test", throwErrorsToConsole: false };
+  const opts = {
+    featureName: "Test",
+    throwErrorsToConsole: false,
+    moduleName: "test"
+  };
 
   it("renders a component", () => {
     const DecoratedComp = openmrsRootDecorator(opts)(CompThatWorks);
@@ -16,6 +21,10 @@ describe("openmrs-react-root-decorator", () => {
     render(<DecoratedComp />);
     // TO-DO assert the UX for broken react app is showing
   });
+
+  it("provides ModuleNameContext", () => {
+    const DecoratedComp = openmrsRootDecorator(opts)(CompWithConfig);
+  });
 });
 
 function CompThatWorks() {
@@ -24,4 +33,9 @@ function CompThatWorks() {
 
 function CompThatThrows() {
   throw Error("ahahaa");
+}
+
+function CompWithConfig() {
+  const moduleName = React.useContext(ModuleNameContext);
+  return <div>{moduleName}</div>;
 }

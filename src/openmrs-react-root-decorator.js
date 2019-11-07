@@ -1,4 +1,5 @@
 import React from "react";
+import { ModuleNameContext } from "@openmrs/esm-module-config";
 
 const defaultOpts = {
   strictMode: true,
@@ -8,10 +9,14 @@ const defaultOpts = {
 export default function decorateOptions(userOpts) {
   if (
     typeof userOpts !== "object" ||
-    typeof userOpts.featureName !== "string"
+    typeof userOpts.featureName !== "string" ||
+    typeof userOpts.moduleName !== "string"
   ) {
     throw new Error(
-      "openmrs-react-root-decorator should be called with an opts object that has a featureName string. e.g. @ErrorBoundary({featureName: 'life'})"
+      "openmrs-react-root-decorator should be called with an opts object that has " +
+        "1. a featureName string that will be displayed to users, and 2. a moduleName string. " +
+        "The moduleName string will be used to look up configuration. " +
+        "e.g. openmrsRootDecorator({featureName: 'nice feature', moduleName: '@openmrs/esm-nice-feature' })"
     );
   }
 
@@ -29,14 +34,17 @@ export default function decorateOptions(userOpts) {
           // TO-DO have a UX designed for when a catastrophic error occurs
           return null;
         } else {
-          if (opts.strictMode || !React.StrictMode) {
-            return <Comp {...this.props} />;
-          } else {
-            return (
-              <React.StrictMode>
+          const rootComponent = (
+            <ModuleNameContext.Provider value={opts.moduleName}>
+              <React.Suspense fallback={null}>
                 <Comp {...this.props} />
-              </React.StrictMode>
-            );
+              </React.Suspense>
+            </ModuleNameContext.Provider>
+          );
+          if (opts.strictMode || !React.StrictMode) {
+            return rootComponent;
+          } else {
+            return <React.StrictMode>{rootComponent}</React.StrictMode>;
           }
         }
       }
