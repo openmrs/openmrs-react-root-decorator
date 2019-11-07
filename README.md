@@ -1,5 +1,7 @@
 # openmrs-react-root-decorator
 
+[![Build Status](https://travis-ci.com/openmrs/openmrs-react-root-decorator.svg?branch=master)](https://travis-ci.com/openmrs/openmrs-react-root-decorator)
+
 A decorator for root react components.
 
 ## Installation
