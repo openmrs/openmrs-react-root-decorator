@@ -1,6 +1,6 @@
 {
   "name": "@openmrs/react-root-decorator",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A decorator for OpenMRS Root react components",
   "main": "lib/openmrs-react-root-decorator.js",
   "scripts": {
