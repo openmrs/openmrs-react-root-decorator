@@ -40,6 +40,6 @@ function CompThatThrows() {
 }
 
 function CompWithConfig() {
-  const moduleName = useContext(ModuleNameContext);
+  const moduleName = React.useContext(ModuleNameContext);
   return <div>{moduleName}</div>;
 }

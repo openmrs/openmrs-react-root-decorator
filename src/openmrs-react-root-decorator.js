@@ -9,7 +9,7 @@ export default function decorateOptions(opts) {
   ) {
     throw new Error(
       "openmrs-react-root-decorator should be called with an opts object that has " +
-        "1. a featureName string and 2. a moduleName string. " +
+        "1. a featureName string that will be displayed to users, and 2. a moduleName string. " +
         "The moduleName string will be used to look up configuration. " +
         "e.g. openmrsRootDecorator({featureName: 'nice feature', moduleName: '@openmrs/esm-nice-feature' })"
     );
@@ -33,7 +33,7 @@ export default function decorateOptions(opts) {
         } else {
           const rootComponent = (
             <ModuleNameContext.Provider value={opts.moduleName}>
-              <React.Suspense fallback="root loading....">
+              <React.Suspense fallback={null}>
                 <Comp {...this.props} />
               </React.Suspense>
             </ModuleNameContext.Provider>
