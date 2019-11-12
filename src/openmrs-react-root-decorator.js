@@ -1,5 +1,6 @@
 import React from "react";
 import { ModuleNameContext } from "@openmrs/esm-module-config";
+import { I18nextProvider } from "react-i18next";
 
 const defaultOpts = {
   strictMode: true,
@@ -37,7 +38,9 @@ export default function decorateOptions(userOpts) {
           const rootComponent = (
             <ModuleNameContext.Provider value={opts.moduleName}>
               <React.Suspense fallback={null}>
-                <Comp {...this.props} />
+                <I18nextProvider defaultNS={opts.moduleName}>
+                  <Comp {...this.props} />
+                </I18nextProvider>
               </React.Suspense>
             </ModuleNameContext.Provider>
           );

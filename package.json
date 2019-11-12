@@ -37,7 +37,8 @@
     "lib"
   ],
   "peerDependencies": {
-    "react": ">=16.0.0"
+    "react": ">=16.0.0",
+    "react-i18next": ">=9"
   },
   "devDependencies": {
     "@babel/cli": "^7.6.4",
