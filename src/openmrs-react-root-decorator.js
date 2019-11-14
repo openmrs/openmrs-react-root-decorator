@@ -1,5 +1,9 @@
 import React from "react";
 import { ModuleNameContext } from "@openmrs/esm-module-config";
+import { I18nextProvider } from "react-i18next";
+import _i18n from "i18next";
+
+const i18n = _i18n.default || _i18n;
 
 const defaultOpts = {
   strictMode: true,
@@ -37,7 +41,14 @@ export default function decorateOptions(userOpts) {
           const rootComponent = (
             <ModuleNameContext.Provider value={opts.moduleName}>
               <React.Suspense fallback={null}>
-                <Comp {...this.props} />
+                <I18nextLoadNamespace
+                  ns={opts.moduleName}
+                  forceUpdate={() => this.forceUpdate()}
+                >
+                  <I18nextProvider defaultNS={opts.moduleName}>
+                    <Comp {...this.props} />
+                  </I18nextProvider>
+                </I18nextLoadNamespace>
               </React.Suspense>
             </ModuleNameContext.Provider>
           );
@@ -68,4 +79,17 @@ export default function decorateOptions(userOpts) {
       }
     };
   };
+}
+
+function I18nextLoadNamespace(props) {
+  React.useEffect(() => {
+    i18n.on("languageChanged", props.forceUpdate);
+    return () => i18n.off("languageChanged", props.forceUpdate);
+  }, [props.forceUpdate]);
+
+  if (!i18n.hasLoadedNamespace(props.ns)) {
+    throw i18n.loadNamespaces([props.ns]);
+  }
+
+  return props.children;
 }

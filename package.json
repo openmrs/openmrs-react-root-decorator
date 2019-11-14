@@ -11,7 +11,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged && npm run lint"
+      "pre-commit": "pretty-quick --staged && concurrently 'npm:lint' 'npm:test'"
     }
   },
   "browserslist": [
@@ -37,7 +37,9 @@
     "lib"
   ],
   "peerDependencies": {
-    "react": ">=16.0.0"
+    "i18next": "*",
+    "react": ">=16.0.0",
+    "react-i18next": ">=9"
   },
   "devDependencies": {
     "@babel/cli": "^7.6.4",
@@ -50,17 +52,20 @@
     "babel-eslint": "^11.0.0-beta.0",
     "babel-jest": "^24.9.0",
     "browserslist-config-openmrs": "^1.0.0",
+    "concurrently": "^5.0.0",
     "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.5.0",
     "eslint-config-react-important-stuff": "^1.2.2",
     "eslint-plugin-prettier": "^3.1.1",
     "husky": "^3.0.9",
+    "i18next": "^19.0.0",
     "jest": "^24.9.0",
     "jest-cli": "^24.9.0",
     "prettier": "^1.18.2",
     "pretty-quick": "^2.0.0",
     "react": "^16.9.0",
     "react-dom": "^16.11.0",
+    "react-i18next": "^11.2.1",
     "rimraf": "^3.0.0"
   },
   "dependencies": {
