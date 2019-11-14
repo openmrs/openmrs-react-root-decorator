@@ -37,6 +37,7 @@
     "lib"
   ],
   "peerDependencies": {
+    "i18next": "*",
     "react": ">=16.0.0",
     "react-i18next": ">=9"
   },
