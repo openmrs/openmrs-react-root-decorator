@@ -11,7 +11,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged && npm run lint"
+      "pre-commit": "pretty-quick --staged && concurrently 'npm:lint' 'npm:test'"
     }
   },
   "browserslist": [
@@ -51,6 +51,7 @@
     "babel-eslint": "^11.0.0-beta.0",
     "babel-jest": "^24.9.0",
     "browserslist-config-openmrs": "^1.0.0",
+    "concurrently": "^5.0.0",
     "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.5.0",
     "eslint-config-react-important-stuff": "^1.2.2",
