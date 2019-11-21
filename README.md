@@ -41,5 +41,6 @@ be called with an `opts` object with the following properties:
 - `throwErrorsToConsole` (optional): A boolean that indicates whether React errors should be thrown to the window via
   `setTimeout(() => {throw err})`. This is so that an automatic error logging library will be able to pick up the errors.
   Defaults to `true`.
+- `disableTranslations` (optional): A boolean that indicates whether to disable translations with i18next. Defaults to `false`.
 
 The decorator returns a function that should then be called with your root react component.
