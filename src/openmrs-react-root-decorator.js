@@ -7,7 +7,8 @@ const i18n = _i18n.default || _i18n;
 
 const defaultOpts = {
   strictMode: true,
-  throwErrorsToConsole: true
+  throwErrorsToConsole: true,
+  disableTranslations: false
 };
 
 export default function decorateOptions(userOpts) {
@@ -41,14 +42,21 @@ export default function decorateOptions(userOpts) {
           const rootComponent = (
             <ModuleNameContext.Provider value={opts.moduleName}>
               <React.Suspense fallback={null}>
-                <I18nextLoadNamespace
-                  ns={opts.moduleName}
-                  forceUpdate={() => this.forceUpdate()}
-                >
-                  <I18nextProvider defaultNS={opts.moduleName}>
-                    <Comp {...this.props} />
-                  </I18nextProvider>
-                </I18nextLoadNamespace>
+                {opts.disableTranslations ? (
+                  <Comp {...this.props} />
+                ) : (
+                  <I18nextLoadNamespace
+                    ns={opts.moduleName}
+                    forceUpdate={() => this.forceUpdate()}
+                  >
+                    <I18nextProvider
+                      defaultNS={opts.moduleName}
+                      disableTranslations={opts.disableTranslations}
+                    >
+                      <Comp {...this.props} />
+                    </I18nextProvider>
+                  </I18nextLoadNamespace>
+                )}
               </React.Suspense>
             </ModuleNameContext.Provider>
           );
