@@ -95,8 +95,16 @@ function I18nextLoadNamespace(props) {
     return () => i18n.off("languageChanged", props.forceUpdate);
   }, [props.forceUpdate]);
 
+  const loadNamespaceErrRef = React.useRef(null);
+
+  if (loadNamespaceErrRef.current) {
+    throw loadNamespaceErrRef.current;
+  }
+
   if (!i18n.hasLoadedNamespace(props.ns)) {
-    throw i18n.loadNamespaces([props.ns]);
+    throw i18n.loadNamespaces([props.ns]).catch(err => {
+      loadNamespaceErrRef.current = err;
+    });
   }
 
   return props.children;
