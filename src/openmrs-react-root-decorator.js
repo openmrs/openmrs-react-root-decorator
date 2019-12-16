@@ -102,9 +102,21 @@ function I18nextLoadNamespace(props) {
   }
 
   if (!i18n.hasLoadedNamespace(props.ns)) {
-    throw i18n.loadNamespaces([props.ns]).catch(err => {
-      loadNamespaceErrRef.current = err;
-    });
+    const timeoutId = setTimeout(() => {
+      console.warn(
+        `openmrs-react-root-decorator: the React suspense promise for i18next.loadNamespaces(['${props.ns}']) did not resolve nor reject after three seconds. This could mean you have multiple versions of i18next and haven't made i18next a webpack external in all projects.`
+      );
+    }, 3000);
+
+    throw i18n
+      .loadNamespaces([props.ns])
+      .then(() => {
+        clearTimeout(timeoutId);
+      })
+      .catch(err => {
+        clearTimeout(timeoutId);
+        loadNamespaceErrRef.current = err;
+      });
   }
 
   return props.children;
