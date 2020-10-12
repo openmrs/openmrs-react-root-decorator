@@ -1,8 +1,8 @@
 {
   "name": "@openmrs/react-root-decorator",
-  "version": "3.3.0",
+  "version": "3.3.1",
   "description": "A decorator for OpenMRS Root react components",
-  "main": "lib/openmrs-react-root-decorator.ts",
+  "main": "lib/openmrs-react-root-decorator.js",
   "types": "src/openmrs-react-root-decorator.d.ts",
   "license": "MPL-2.0",
   "homepage": "https://github.com/openmrs/openmrs-react-root-decorator#readme",
