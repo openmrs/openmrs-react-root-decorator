@@ -1,7 +1,7 @@
 import React from "react";
-import openmrsRootDecorator from "./openmrs-react-root-decorator";
+import { ModuleNameContext } from "@openmrs/esm-config";
 import { render } from "@testing-library/react";
-import { ModuleNameContext } from "@openmrs/esm-module-config";
+import openmrsRootDecorator from "./openmrs-react-root-decorator";
 
 describe("openmrs-react-root-decorator", () => {
   const opts = {

@@ -4,3 +4,9 @@ node_js:
 script:
   - npm run lint
   - npm test
+deploy:
+  - provider: npm
+    api_token: "$NPM_AUTH_TOKEN"
+    edge: true
+    on:
+      tags: true

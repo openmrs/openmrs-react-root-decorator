@@ -1,42 +1,41 @@
 {
   "name": "@openmrs/react-root-decorator",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "description": "A decorator for OpenMRS Root react components",
-  "main": "lib/openmrs-react-root-decorator.js",
+  "main": "lib/openmrs-react-root-decorator.ts",
+  "types": "src/openmrs-react-root-decorator.d.ts",
+  "license": "MPL-2.0",
+  "homepage": "https://github.com/openmrs/openmrs-react-root-decorator#readme",
   "scripts": {
     "test": "jest",
     "build": "rimraf lib && babel src/openmrs-react-root-decorator.js --out-dir lib --source-maps",
     "lint": "eslint src",
     "prepublishOnly": "npm run build"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged && concurrently 'npm:lint' 'npm:test'"
-    }
-  },
   "browserslist": [
     "extends browserslist-config-openmrs"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/openmrs/openmrs-react-error-boundary.git"
-  },
   "keywords": [
     "openmrs",
     "react",
     "error",
     "boundary"
   ],
-  "author": "",
-  "license": "MPL-2.0",
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged && concurrently 'npm:lint' 'npm:test'"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/openmrs/openmrs-react-error-boundary.git"
+  },
   "bugs": {
     "url": "https://github.com/openmrs/openmrs-react-root-decorator/issues"
   },
-  "homepage": "https://github.com/openmrs/openmrs-react-root-decorator#readme",
-  "files": [
-    "lib"
-  ],
+  "dependencies": {},
   "peerDependencies": {
+    "@openmrs/esm-config": "^3.0.0",
     "i18next": "*",
     "react": ">=16.0.0",
     "react-i18next": ">=9"
@@ -47,12 +46,13 @@
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/preset-env": "^7.6.3",
     "@babel/preset-react": "^7.6.3",
+    "@openmrs/esm-config": "^3.0.0",
     "@testing-library/react": "^9.3.0",
     "@types/jest": "^24.0.20",
     "babel-eslint": "^11.0.0-beta.0",
     "babel-jest": "^24.9.0",
     "browserslist-config-openmrs": "^1.0.0",
-    "concurrently": "^5.0.0",
+    "concurrently": "^5.3.0",
     "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.5.0",
     "eslint-config-react-important-stuff": "^1.2.2",
@@ -67,8 +67,5 @@
     "react-dom": "^16.11.0",
     "react-i18next": "^11.2.1",
     "rimraf": "^3.0.0"
-  },
-  "dependencies": {
-    "@openmrs/esm-module-config": "^1.0.0"
   }
 }

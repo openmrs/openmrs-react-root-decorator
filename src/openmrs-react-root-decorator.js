@@ -1,5 +1,5 @@
 import React from "react";
-import { ModuleNameContext } from "@openmrs/esm-module-config";
+import { ModuleNameContext } from "@openmrs/esm-config";
 import { I18nextProvider } from "react-i18next";
 import _i18n from "i18next";
 
@@ -11,6 +11,39 @@ const defaultOpts = {
   disableTranslations: false
 };
 
+function I18nextLoadNamespace(props) {
+  React.useEffect(() => {
+    i18n.on("languageChanged", props.forceUpdate);
+    return () => i18n.off("languageChanged", props.forceUpdate);
+  }, [props.forceUpdate]);
+
+  const loadNamespaceErrRef = React.useRef(null);
+
+  if (loadNamespaceErrRef.current) {
+    throw loadNamespaceErrRef.current;
+  }
+
+  if (!i18n.hasLoadedNamespace(props.ns)) {
+    const timeoutId = setTimeout(() => {
+      console.warn(
+        `openmrs-react-root-decorator: the React suspense promise for i18next.loadNamespaces(['${props.ns}']) did not resolve nor reject after three seconds. This could mean you have multiple versions of i18next and haven't made i18next a webpack external in all projects.`
+      );
+    }, 3000);
+
+    throw i18n
+      .loadNamespaces([props.ns])
+      .then(() => {
+        clearTimeout(timeoutId);
+      })
+      .catch(err => {
+        clearTimeout(timeoutId);
+        loadNamespaceErrRef.current = err;
+      });
+  }
+
+  return props.children;
+}
+
 export default function decorateOptions(userOpts) {
   if (
     typeof userOpts !== "object" ||
@@ -18,10 +51,17 @@ export default function decorateOptions(userOpts) {
     typeof userOpts.moduleName !== "string"
   ) {
     throw new Error(
-      "openmrs-react-root-decorator should be called with an opts object that has " +
-        "1. a featureName string that will be displayed to users, and 2. a moduleName string. " +
-        "The moduleName string will be used to look up configuration. " +
-        "e.g. openmrsRootDecorator({featureName: 'nice feature', moduleName: '@openmrs/esm-nice-feature' })"
+      `openmrs-react-root-decorator should be called with an opts object that has 
+
+1. a featureName string that will be displayed to users, and
+2. a moduleName string.
+
+The moduleName string will be used to look up configuration. 
+
+Example:
+
+> openmrsRootDecorator({featureName: 'nice feature', moduleName: '@openmrs/esm-nice-feature' })
+`
     );
   }
 
@@ -87,37 +127,4 @@ export default function decorateOptions(userOpts) {
       }
     };
   };
-}
-
-function I18nextLoadNamespace(props) {
-  React.useEffect(() => {
-    i18n.on("languageChanged", props.forceUpdate);
-    return () => i18n.off("languageChanged", props.forceUpdate);
-  }, [props.forceUpdate]);
-
-  const loadNamespaceErrRef = React.useRef(null);
-
-  if (loadNamespaceErrRef.current) {
-    throw loadNamespaceErrRef.current;
-  }
-
-  if (!i18n.hasLoadedNamespace(props.ns)) {
-    const timeoutId = setTimeout(() => {
-      console.warn(
-        `openmrs-react-root-decorator: the React suspense promise for i18next.loadNamespaces(['${props.ns}']) did not resolve nor reject after three seconds. This could mean you have multiple versions of i18next and haven't made i18next a webpack external in all projects.`
-      );
-    }, 3000);
-
-    throw i18n
-      .loadNamespaces([props.ns])
-      .then(() => {
-        clearTimeout(timeoutId);
-      })
-      .catch(err => {
-        clearTimeout(timeoutId);
-        loadNamespaceErrRef.current = err;
-      });
-  }
-
-  return props.children;
 }
