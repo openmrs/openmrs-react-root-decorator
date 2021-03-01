@@ -1,4 +1,10 @@
-# openmrs-react-root-decorator
+# Deprecated—Moved to openmrs-esm-core
+
+https://github.com/openmrs/openmrs-esm-core
+
+https://github.com/openmrs/openmrs-esm-core/blob/master/packages/esm-react-utils/src/openmrsComponentDecorator.tsx
+
+# Old docs for openmrs-react-root-decorator
 
 [![Build Status](https://travis-ci.com/openmrs/openmrs-react-root-decorator.svg?branch=master)](https://travis-ci.com/openmrs/openmrs-react-root-decorator)
 
